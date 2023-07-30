@@ -16,11 +16,11 @@ db.connect((err) => {
 
     const sql = "SELECT * FROM rpul"
     db.query(sql, (err, result) => {
-        console.log('hasil database', result)
-    })
-
-    app.get("/", (req, res) => {
-        res.send("OK ROUTE OPEN")
+        const users = JSON.parse(JSON.stringify(result))
+        console.log('hasil database', users)
+        app.get("/", (req, res) => {
+            res.send(user)
+        })
     })
 })
 
