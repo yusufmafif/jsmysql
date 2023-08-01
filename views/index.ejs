@@ -30,12 +30,20 @@
             <tbody>
                 <% for (let rpul of users) { %>
                     <tr>
-                        <th scope="row"><%= rpul.id %></th>
-                        <th scope="row"><%= rpul.nama_lengkap %></th>
-                        <th scope="row"><%= rpul.umur %></th>
-                        <th scope="row"><%= rpul.premis %></th>
+                        <th scope="row">
+                            <%= rpul.id %>
+                        </th>
+                        <th scope="row">
+                            <%= rpul.nama_lengkap %>
+                        </th>
+                        <th scope="row">
+                            <%= rpul.umur %>
+                        </th>
+                        <th scope="row">
+                            <%= rpul.premis %>
+                        </th>
                     </tr>
-                        <% } %>
+                    <% } %>
             </tbody>
         </table>
     </div>
