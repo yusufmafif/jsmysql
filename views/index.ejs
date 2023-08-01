@@ -6,18 +6,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
+
 <body>
-    <h1>
-        <%= title %>
-    </h1>
-    <div>
+    <div class="container">
+        <h1>
+            <%= title %>
+        </h1>
         <ul>
-            <% for (let rpul of users) { %>
-                <li><%= rpul.umur %> - <%= rpul.premis %></li>
-            <% } %>
+
         </ul>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">nama</th>
+                    <th scope="col">umur</th>
+                    <th scope="col">premis</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let rpul of users) { %>
+                    <tr>
+                        <th scope="row"><%= rpul.id %></th>
+                        <th scope="row"><%= rpul.nama_lengkap %></th>
+                        <th scope="row"><%= rpul.umur %></th>
+                        <th scope="row"><%= rpul.premis %></th>
+                    </tr>
+                        <% } %>
+            </tbody>
+        </table>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
