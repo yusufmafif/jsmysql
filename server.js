@@ -19,7 +19,7 @@ db.connect((err) => {
         const users = JSON.parse(JSON.stringify(result))
         console.log('hasil database', users)
         app.get("/", (req, res) => {
-            res.send(user)
+            res.send(users)
         })
     })
 })
