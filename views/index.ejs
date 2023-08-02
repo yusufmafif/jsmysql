@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Belajar CRUD</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
@@ -46,6 +46,34 @@
                     <% } %>
             </tbody>
         </table>
+        <form action="/tambah" method="post">
+            <h3>TAMBAH DATA</h3>
+            <div class="row mb-3">
+                <label for="no" class="col-sm-2 col-form-label">no</label>
+                <div class="col-sm-10">
+                    <input type="number" name="no" class="form-control">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="nama_lengkap" class="col-sm-2 col-form-label">Nama</label>
+                <div class="col-sm-10">
+                    <input type="text" name="nama" class="form-control">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="umur" class="col-sm-2 col-form-label">umur</label>
+                <div class="col-sm-10">
+                    <input type="number" name="umur" class="form-control">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="premis" class="col-sm-2 col-form-label">Premis</label>
+                <div class="col-sm-10">
+                    <input type="text" name="premis" class="form-control">
+                </div>
+            </div>
+            <input type="submit" class="btn btn-danger" value="Tambahkan" />
+        </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
         integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
