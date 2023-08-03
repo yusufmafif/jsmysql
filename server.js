@@ -4,11 +4,13 @@ const bodyParser = require("body-parser")
 
 const app = express()
 
-app.use(bodyParser.urlencoded({ extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json());
+
 
 app.set("view engine", "ejs")
 app.set("views", "views")
- 
+
 const db = mysql.createConnection({
     host: "localhost",
     database: "belajardb",
@@ -19,8 +21,8 @@ const db = mysql.createConnection({
 db.connect((err) => {
     if (err) throw err
     console.log("DB Connected")
-    
-    
+
+
     app.get("/", (req, res) => {
         const sql = "SELECT * FROM rpul"
         db.query(sql, (err, result) => {
@@ -37,7 +39,15 @@ db.connect((err) => {
         })
     })
 
-   
+    app.delete('/hapus', (req, res) => {
+        const id = req.body.id;
+        const deleteSql = `DELETE FROM rpul WHERE id = ${id};`;
+        db.query(deleteSql, (err, result) => {
+            if (err) throw err;
+            console.log('Data has been deleted!');
+            res.send({ message: 'Data has been deleted!' });
+        });
+    });
 })
 
 
