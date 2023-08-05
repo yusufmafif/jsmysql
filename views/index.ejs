@@ -21,8 +21,6 @@
                 .then(data => {
                     console.log(data.message);
                     alert("Data has been deleted");
-                    // Lakukan tindakan lanjutan setelah data dihapus
-                    // Misalnya, muat ulang halaman untuk memperbarui tabel
                     window.location.reload();
                 })
                 .catch(error => console.error('Error:', error));
@@ -47,6 +45,7 @@
                     <th scope="col">umur</th>
                     <th scope="col">premis</th>
                     <th scope="col">aksi</th>
+                    <th scope="col">edit</th>
                 </tr>
             </thead>
             <tbody>
@@ -73,6 +72,9 @@
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>                            
                         </th>
+                        <th>
+                            <a href="/edit/<%= rpul.id %>" class="btn btn-primary">Edit</a>
+                        </th>                        
                     </tr>
                     <% } %>
             </tbody>
@@ -86,7 +88,7 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="nama_lengkap" class="col-sm-2 col-form-label">Nama</label>
+                <label for="Nama" class="col-sm-2 col-form-label">Nama</label>
                 <div class="col-sm-10">
                     <input type="text" name="nama" class="form-control">
                 </div>

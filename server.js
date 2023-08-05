@@ -30,6 +30,26 @@ db.connect((err) => {
             res.render("index", { users: users, title: "Belajar CRUD" })
         })
     })
+    
+    app.get("/edit/:id", (req, res) => {
+        const id = req.params.id;
+        const selectSql = `SELECT * FROM rpul WHERE id = ${id};`;
+        db.query(selectSql, (err, result) => {
+          if (err) throw err;
+          const dataToEdit = JSON.parse(JSON.stringify(result[0]));
+          res.render("edit", { dataToEdit: dataToEdit });
+        });
+      });
+
+      app.post('/update/:id', (req, res) => {
+        const id = req.params.id;
+        const updateSql = `UPDATE rpul SET no='${req.body.no}', nama_lengkap='${req.body.nama}', umur='${req.body.umur}', premis='${req.body.premis}' WHERE id = ${id};`;
+        db.query(updateSql, (err, result) => {
+            if (err) throw err;
+            console.log('Data has been updated!');
+            res.redirect('/');
+        });
+    });
 
     app.post("/tambah", (req, res) => {
         const insertSql = `INSERT INTO rpul (no, nama_lengkap, umur, premis) VALUES ('${req.body.no}', '${req.body.nama}', '${req.body.umur}', '${req.body.premis}');`
@@ -38,6 +58,7 @@ db.connect((err) => {
             res.redirect("/")
         })
     })
+    
 
     app.delete('/hapus', (req, res) => {
         const id = req.body.id;
