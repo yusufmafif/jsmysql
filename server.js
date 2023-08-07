@@ -1,15 +1,12 @@
 const express = require("express")
-const mysql = require("mysql")
+const mysql = require("mysql2")
 const bodyParser = require("body-parser")
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require('bcryptjs');
 
 const app = express()
-
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json());
-
-
-app.set("view engine", "ejs")
-app.set("views", "views")
 
 const db = mysql.createConnection({
     host: "localhost",
@@ -18,9 +15,61 @@ const db = mysql.createConnection({
     password: "",
 })
 
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json());
+app.set("view engine", "ejs")
+app.set("views", "views")
+app.use(express.urlencoded({ extended: true }));
+app.use(session({ secret: 'your_secret_key', resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Passport Configuration
+passport.use(new LocalStrategy(
+    (username, password, done) => {
+        connection.query('SELECT * FROM users WHERE username = ?', [username], (err, rows) => {
+            if (err) return done(err);
+            if (!rows.length) return done(null, false, { message: 'Incorrect username.' });
+
+            const user = rows[0];
+            bcrypt.compare(password, user.password, (err, result) => {
+                if (err) return done(err);
+                if (!result) return done(null, false, { message: 'Incorrect password.' });
+                return done(null, user);
+            });
+        });
+    }
+));
+
+passport.serializeUser((user, done) => {
+    done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+    connection.query('SELECT * FROM users WHERE id = ?', [id], (err, rows) => {
+        done(err, rows[0]);
+    });
+});
+
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/login');
+}
+
 db.connect((err) => {
     if (err) throw err
     console.log("DB Connected")
+
+    app.get('/', ensureAuthenticated, (req, res) => {
+        res.render('index.ejs', { root: req.user });
+    });
+
+    app.get('/login', (req, res) => {
+        res.render('login.ejs',);
+    });
+
 
 
     app.get("/", (req, res) => {
@@ -30,18 +79,18 @@ db.connect((err) => {
             res.render("index", { users: users, title: "Belajar CRUD" })
         })
     })
-    
+
     app.get("/edit/:id", (req, res) => {
         const id = req.params.id;
         const selectSql = `SELECT * FROM rpul WHERE id = ${id};`;
         db.query(selectSql, (err, result) => {
-          if (err) throw err;
-          const dataToEdit = JSON.parse(JSON.stringify(result[0]));
-          res.render("edit", { dataToEdit: dataToEdit });
+            if (err) throw err;
+            const dataToEdit = JSON.parse(JSON.stringify(result[0]));
+            res.render("edit", { dataToEdit: dataToEdit });
         });
-      });
+    });
 
-      app.post('/update/:id', (req, res) => {
+    app.post('/update/:id', (req, res) => {
         const id = req.params.id;
         const updateSql = `UPDATE rpul SET no='${req.body.no}', nama_lengkap='${req.body.nama}', umur='${req.body.umur}', premis='${req.body.premis}' WHERE id = ${id};`;
         db.query(updateSql, (err, result) => {
@@ -58,7 +107,7 @@ db.connect((err) => {
             res.redirect("/")
         })
     })
-    
+
 
     app.delete('/hapus', (req, res) => {
         const id = req.body.id;
