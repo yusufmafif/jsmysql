@@ -45,6 +45,7 @@
                     <th scope="col">nama</th>
                     <th scope="col">umur</th>
                     <th scope="col">premis</th>
+                    <th scope="col">tanggal lahir</th>
                     <th scope="col">aksi</th>
                     <th scope="col">edit</th>
                 </tr>
@@ -66,6 +67,9 @@
                         </th>
                         <th scope="row">
                             <%= rpul.premis %>
+                        </th>
+                        <th scope="row">
+                            <%= rpul.tanggal_lahir %>
                         </th>
                         <th>
                             <form id="deleteForm" onsubmit="deleteData('<%= rpul.id %>'); return false;">
@@ -106,8 +110,15 @@
                     <input type="text" name="premis" class="form-control">
                 </div>
             </div>
+            <div class="row mb-3">
+                <label for="tanggal_lahir" class="col-sm-2 col-form-label">Tanggal Lahir</label>
+                <div class="col-sm-10">
+                    <input type="date" name="tanggal_lahir" class="form-control">
+                </div>
+            </div>
             <input type="submit" class="btn btn-secondary" value="Tambahkan" />
         </form>
+        <a href="/logout" class="container btn btn-primary" style="margin: 10px;">Logout</a>
     </div>
     <% } else { %>
         <p>Silakan login untuk melihat data.</p>

@@ -120,7 +120,7 @@ db.connect((err) => {
 
     app.post('/update/:id', (req, res) => {
         const id = req.params.id;
-        const updateSql = `UPDATE rpul SET no='${req.body.no}', nama_lengkap='${req.body.nama}', umur='${req.body.umur}', premis='${req.body.premis}' WHERE id = ${id};`;
+        const updateSql = `UPDATE rpul SET no='${req.body.no}', nama_lengkap='${req.body.nama}', umur='${req.body.umur}', premis='${req.body.premis}', tanggal_lahir='${req.body.tanggalLahir}' WHERE id = ${id};`;
         db.query(updateSql, (err, result) => {
             if (err) throw err;
             console.log('Data has been updated!');
@@ -129,7 +129,7 @@ db.connect((err) => {
     });
 
     app.post("/tambah", (req, res) => {
-        const insertSql = `INSERT INTO rpul (no, nama_lengkap, umur, premis) VALUES ('${req.body.no}', '${req.body.nama}', '${req.body.umur}', '${req.body.premis}');`
+        const insertSql = `INSERT INTO rpul (no, nama_lengkap, umur, premis, tanggal_lahir) VALUES ('${req.body.no}', '${req.body.nama}', '${req.body.umur}', '${req.body.premis}', '${req.body.tanggal_lahir}');`
         db.query(insertSql, (err, result) => {
             if (err) throw err
             res.redirect("/")
@@ -148,6 +148,19 @@ db.connect((err) => {
     });
 })
 
+app.get('/logout', (req, res) => {
+    req.logout((err) => {
+      if (err) {
+        // Handle error if logout encounters a problem
+        console.error(err);
+        return res.redirect('/'); // You might want to redirect to an error page
+      }
+      // Successful logout
+      res.redirect('/');
+    });
+  });
+  
+  
 
 app.listen(8000, () => {
     console.log("Server ready...")
