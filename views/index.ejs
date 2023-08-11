@@ -63,7 +63,19 @@
                             <%= rpul.nama_lengkap %>
                         </th>
                         <th scope="row">
-                            <%= rpul.umur %>
+                            <!-- <%= rpul.umur %> -->
+                            <% if (rpul.tanggal_lahir) { %>
+                                <% var birthDate = new Date(rpul.tanggal_lahir); %>
+                                <% var today = new Date(); %>
+                                <% var age = today.getFullYear() - birthDate.getFullYear(); %>
+                                <% if (today.getMonth() < birthDate.getMonth() || (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) { %>
+                                    <% age--; %>
+                                <% } %>
+                                <%= age %> tahun
+                            <% } else { %>
+                                <!-- Handle the case when tanggal_lahir is null -->
+                                No birthdate available
+                            <% } %>
                         </th>
                         <th scope="row">
                             <%= rpul.premis %>
