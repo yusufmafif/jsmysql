@@ -69,8 +69,14 @@
                             <%= rpul.premis %>
                         </th>
                         <th scope="row">
-                            <%= rpul.tanggal_lahir %>
-                        </th>
+                            <% if (rpul.tanggal_lahir) { %>
+                                <% var epochTime = Math.floor(new Date(rpul.tanggal_lahir).getTime() / 1000); %>
+                                <%= new Date(epochTime * 1000).toLocaleDateString() %>
+                            <% } else { %>
+                                <!-- Handle the case when tanggal_lahir is null -->
+                                No birthdate available
+                            <% } %>
+                        </th>                        
                         <th>
                             <form id="deleteForm" onsubmit="deleteData('<%= rpul.id %>'); return false;">
                                 <input type="hidden" name="id" value="<%= rpul.id %>">

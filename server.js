@@ -7,6 +7,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 
+
 const app = express()
 
 const db = mysql.createConnection({
@@ -14,6 +15,7 @@ const db = mysql.createConnection({
     database: "belajardb",
     user: "root",
     password: "",
+    timezone : 'Z'
 })
 
 // const hashedPassword = bcrypt.hashSync('password', 10); // Ganti 'password' dengan kata sandi yang ingin Anda gunakan
