@@ -15,7 +15,7 @@ const db = mysql.createConnection({
     database: "belajardb",
     user: "root",
     password: "",
-    timezone : 'Z'
+    // timezone : 'Z'
 })
 
 // const hashedPassword = bcrypt.hashSync('password', 10); // Ganti 'password' dengan kata sandi yang ingin Anda gunakan
@@ -41,7 +41,6 @@ passport.use(new LocalStrategy(
         db.query('SELECT * FROM users WHERE username = ?', [username], (err, rows) => {
             if (err) return done(err);
             if (!rows.length) return done(null, false, { message: 'Incorrect username.' });
-
             const user = rows[0];
             bcrypt.compare(password, user.password, (err, result) => {
                 if (err) return done(err);
@@ -83,7 +82,7 @@ db.connect((err) => {
 
     //   FAHAMI
       app.get('/', ensureAuthenticated, (req, res) => {
-        const sql = "SELECT * FROM rpul"
+        const sql = "SELECT * FROM rpul ORDER by tanggal_lahir"
         db.query(sql, (err, result) => {
             if (err) throw err;
             const users = JSON.parse(JSON.stringify(result))
@@ -109,6 +108,19 @@ db.connect((err) => {
     //         res.render("index", { users: users, title: "Belajar CRUD" })
     //     })
     // })
+
+    app.get('/sort', (req, res) => {
+        const username = req.query.username; // Dapatkan nilai parameter username dari query string
+        const attribute = req.query.attribute; // Dapatkan nilai parameter attribute dari query string
+        
+        // Lakukan pengurutan data sesuai dengan atribut yang diberikan
+        // Misalnya, jika attribute === 'no', Anda dapat mengambil data dari database dan mengurutkannya berdasarkan nomor
+        
+        // Setelah melakukan pengurutan, kembalikan data dalam format JSON
+        const sortedData =  // Data yang sudah diurutkan
+        res.json(sortedData);
+    });
+    
 
     app.get("/edit/:id", (req, res) => {
         const id = req.params.id;
