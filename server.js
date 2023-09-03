@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express")
 const mysql = require("mysql2")
 const bodyParser = require("body-parser")
@@ -10,13 +11,8 @@ const bcrypt = require('bcryptjs');
 
 const app = express()
 
-const db = mysql.createConnection({
-    host: "localhost",
-    database: "belajardb",
-    user: "root",
-    password: "",
-    // timezone : 'Z'
-})
+connectionString = process.env.DATABASE_URL || '';
+const db =  mysql.createConnection(connectionString);
 
 // const hashedPassword = bcrypt.hashSync('password', 10); // Ganti 'password' dengan kata sandi yang ingin Anda gunakan
 // const insertSql = `INSERT INTO users (username, password) VALUES ('john_doe', '${hashedPassword}');`
@@ -50,17 +46,14 @@ passport.use(new LocalStrategy(
         });
     }
 ));
-
 passport.serializeUser((user, done) => {
     done(null, user.id);
 });
-
 passport.deserializeUser((id, done) => {
     db.query('SELECT * FROM users WHERE id = ?', [id], (err, rows) => {
         done(err, rows[0]);
     });
 });
-
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
@@ -161,6 +154,41 @@ db.connect((err) => {
         });
     });
 })
+
+app.get('/search', (req, res) => {
+    const { id, no, nama_lengkap, umur, premis, tanggal_lahir } = req.query;
+  
+    let query = 'SELECT * FROM people WHERE 1';
+  
+    if (id) {
+      query += ` AND id = ${mysql.escape(id)}`;
+    }
+    if (no) {
+      query += ` AND no = ${mysql.escape(no)}`;
+    }
+    if (name) {
+      query += ` AND name LIKE ${mysql.escape('%' + name + '%')}`;
+    }
+    if (birthdate) {
+      const formattedBirthdate = moment(birthdate).format('YYYY-MM-DD');
+      query += ` AND birthdate = ${mysql.escape(formattedBirthdate)}`;
+    }
+    if (age) {
+      const currentYear = new Date().getFullYear();
+      const birthYear = currentYear - age;
+      query += ` AND birthdate >= ${mysql.escape(birthYear + '-01-01')}`;
+    }
+  
+    connection.query(query, (error, results) => {
+      if (error) {
+        console.error('Error executing query:', error);
+        return res.status(500).json({ error: 'An error occurred' });
+      }
+  
+      res.json(results);
+    });
+  });
+
 
 app.get('/logout', (req, res) => {
     req.logout((err) => {

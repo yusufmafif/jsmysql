@@ -58,6 +58,7 @@
             <h1>
                 <%= "Belajar CRUD" %>
             </h1>
+            
             <ul>
 
             </ul>
@@ -91,20 +92,8 @@
                             </th>
                             <th scope="row">
                                 <!-- <%= rpul.umur %> -->
-                                <% if (rpul.tanggal_lahir) { %>
-                                    <% var birthDate=new Date(rpul.tanggal_lahir); %>
-                                        <% var today=new Date(); %>
-                                            <% var age=today.getFullYear() - birthDate.getFullYear(); %>
-                                                <% if (today.getMonth() < birthDate.getMonth() ||
-                                                    (today.getMonth()===birthDate.getMonth() && today.getDate() <
-                                                    birthDate.getDate())) { %>
-                                                    <% age--; %>
-                                                        <% } %>
-                                                            <%= age %> tahun
-                                                                <% } else { %>
-                                                                    <!-- Handle the case when tanggal_lahir is null -->
-                                                                    No birthdate available
-                                                                    <% } %>
+                                <%= (rpul.tanggal_lahir)%>
+                    
                             </th>
                             <th scope="row">
                                 <%= rpul.premis %>
