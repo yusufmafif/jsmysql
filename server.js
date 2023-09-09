@@ -224,7 +224,7 @@ const express = require("express");
 const app = express();
 
 app.get("/", function (req, res) {
-  res.send("Hello World");
+  res.send("Jadi Rusak nya kayak nya ada di package.json sama url database nya");
 });
 
 app.listen(8000, () => {
