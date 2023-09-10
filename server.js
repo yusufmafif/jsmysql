@@ -112,13 +112,13 @@
 //     }),
 //   );
 //
-//   // app.get("/", (req, res) => {
-//   //     const sql = "SELECT * FROM rpul"
-//   //     db.query(sql, (err, result) => {
-//   //         const users = JSON.parse(JSON.stringify(result))
-//   //         res.render("index", { users: users, title: "Belajar CRUD" })
-//   //     })
-//   // })
+  app.get("/", (req, res) => {
+      const sql = "SELECT * FROM rpul"
+      db.query(sql, (err, result) => {
+          const users = JSON.parse(JSON.stringify(result))
+          res.render("index", { users: users, title: "Belajar CRUD" })
+      })
+  })
 //
 //   app.get("/sort", (req, res) => {
 //     const username = req.query.username; // Dapatkan nilai parameter username dari query string
@@ -223,9 +223,9 @@
 const express = require("express");
 const app = express();
 
-app.get("/", function (req, res) {
-  res.send("Jadi Rusak nya kayak nya ada di package.json sama url database nya");
-});
+// app.get("/", function (req, res) {
+//   res.send("Jadi Rusak nya kayak nya ada di package.json sama url database nya");
+// });
 
 app.listen(8000, () => {
   console.log("Server ready...");
